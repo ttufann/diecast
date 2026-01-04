@@ -11,17 +11,17 @@
         Colors: Primary Blue (#3B82F6), Accent Orange (#F97316), Background Slate (#F8FAFC), Text Slate (#1E293B)
         
         Plan Summary:
-        1. Intro: Professionalizing the hobby market.
-        2. Portfolio Composition: Donut chart showing wanted model types.
-        3. Value Drivers: Radar chart showing what makes a car valuable.
-        4. Process Map: CSS-based flow of the transaction.
+        1. Intro: Professionalizing the hobby market with a mobile-first responsive layout.
+        2. Portfolio Composition: Donut chart showing wanted model types, stacked on mobile.
+        3. Value Drivers: Radar chart showing what makes a car valuable, resized for smaller viewports.
+        4. Process Map: CSS-based flow of the transaction, vertical on mobile, horizontal on desktop.
         5. Platform Comparison: Bar chart comparing private sale vs. selling to us.
         
         Visualization Choices:
-        1. Wanted Models -> Goal: Compare -> Donut Chart -> Chart.js (Good for showing parts of a whole portfolio).
-        2. Valuation Factors -> Goal: Relationships -> Radar Chart -> Chart.js (Excellent for multi-variable scoring).
-        3. Transaction Process -> Goal: Organize -> CSS Flowchart -> HTML/Tailwind (Clear step-by-step visual).
-        4. Service Comparison -> Goal: Compare -> Grouped Bar Chart -> Chart.js (Direct comparison of attributes).
+        1. Wanted Models -> Goal: Compare -> Donut Chart -> Chart.js (Responsive-ready).
+        2. Valuation Factors -> Goal: Relationships -> Radar Chart -> Chart.js (Adjusted point labels for small screens).
+        3. Transaction Process -> Goal: Organize -> CSS Flowchart -> HTML/Tailwind (Responsive grid transition).
+        4. Service Comparison -> Goal: Compare -> Grouped Bar Chart -> Chart.js (Horizontal scaling enabled).
         
         Confirmation: NEITHER Mermaid JS NOR SVG were used in this output.
     -->
@@ -40,8 +40,13 @@
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
-            height: 350px;
-            max-height: 400px;
+            height: 280px; /* Mobile height */
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px; /* Tablet/Desktop height */
+            }
         }
 
         .card-shadow {
@@ -58,11 +63,12 @@
             height: 2px;
             background-color: #CBD5E1;
             z-index: 0;
+            display: none;
         }
         
-        @media (max-width: 768px) {
+        @media (min-width: 768px) {
             .step-connector::after {
-                display: none;
+                display: block;
             }
         }
     </style>
@@ -71,234 +77,185 @@
 
     <!-- Navbar -->
     <nav class="sticky top-0 z-50 bg-slate-900 text-white shadow-lg">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-extrabold tracking-tighter text-blue-500">DIECAST<span class="text-white">İSTANBUL</span></div>
-            <div class="hidden md:flex space-x-6 text-sm font-medium">
-                <a href="#pazar-analizi" class="hover:text-blue-400 transition">Pazar Analizi</a>
-                <a href="#degerleme" class="hover:text-blue-400 transition">Değerleme</a>
-                <a href="#surec" class="hover:text-blue-400 transition">Süreç</a>
-                <a href="#iletisim" class="bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-full transition">Hemen Sat</a>
+        <div class="container mx-auto px-4 md:px-6 py-3 md:py-4 flex justify-between items-center">
+            <div class="text-xl md:text-2xl font-extrabold tracking-tighter text-blue-500">DIECAST<span class="text-white">İSTANBUL</span></div>
+            <div class="flex items-center space-x-2 md:space-x-6">
+                <a href="#surec" class="hidden sm:inline-block text-xs md:text-sm font-medium hover:text-blue-400 transition">Nasıl Çalışır?</a>
+                <a href="#iletisim" class="bg-orange-500 hover:bg-orange-600 px-3 py-2 md:px-5 md:py-2 rounded-full text-xs md:text-sm font-bold transition">Hemen Sat</a>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <header class="relative bg-white overflow-hidden">
-        <div class="container mx-auto px-6 py-16 md:py-24 grid md:grid-cols-2 gap-12 items-center">
-            <div>
-                <span class="inline-block py-1 px-3 rounded-full bg-blue-100 text-blue-800 text-xs font-bold mb-4">İSTANBUL İÇİ ELDEN TESLİM</span>
-                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6 text-slate-900">
-                    Koleksiyonunuzu <br>
+        <div class="container mx-auto px-4 md:px-6 py-10 md:py-24 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+            <div class="text-center md:text-left order-2 md:order-1">
+                <span class="inline-block py-1 px-3 rounded-full bg-blue-100 text-blue-800 text-[10px] md:text-xs font-bold mb-4 uppercase tracking-wider">İSTANBUL İÇİ ELDEN TESLİM</span>
+                <h1 class="text-3xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-4 md:mb-6 text-slate-900">
+                    Koleksiyonunuzu <br class="hidden md:block">
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-orange-500">Nakde Çevirin</span>
                 </h1>
-                <p class="text-lg text-slate-600 mb-8 leading-relaxed">
+                <p class="text-sm md:text-lg text-slate-600 mb-6 md:mb-8 leading-relaxed max-w-xl mx-auto md:mx-0">
                     Hot Wheels ve Mini GT koleksiyonlarınız için profesyonel alım hizmeti. 
-                    Karmaşık satış süreçleriyle uğraşmayın, anında değerleme ve nakit ödeme ile koleksiyonunuzu değerlendirin.
+                    Anında değerleme ve nakit ödeme ile koleksiyonunuzu güvenle değerlendirin.
                 </p>
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="#iletisim" class="flex items-center justify-center px-8 py-4 bg-blue-600 text-white font-bold rounded-lg shadow-lg hover:bg-blue-700 transition transform hover:-translate-y-1">
-                        DM ile Teklif Al
+                <div class="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center md:justify-start">
+                    <a href="#iletisim" class="flex items-center justify-center px-6 py-3 md:px-8 md:py-4 bg-blue-600 text-white font-bold rounded-xl shadow-lg hover:bg-blue-700 transition">
+                        Teklif Al (DM)
                     </a>
-                    <a href="#surec" class="flex items-center justify-center px-8 py-4 border-2 border-slate-200 text-slate-700 font-bold rounded-lg hover:border-blue-500 hover:text-blue-600 transition">
-                        Nasıl Çalışır?
+                    <a href="#surec" class="flex items-center justify-center px-6 py-3 md:px-8 md:py-4 border-2 border-slate-200 text-slate-700 font-bold rounded-xl hover:border-blue-500 hover:text-blue-600 transition">
+                        Süreç Nasıl?
                     </a>
                 </div>
             </div>
-            <!-- Abstract Hero Graphic using CSS -->
-            <div class="relative h-64 md:h-96 w-full flex items-center justify-center bg-slate-100 rounded-3xl overflow-hidden card-shadow">
-                <div class="absolute w-64 h-64 bg-blue-500 rounded-full opacity-20 blur-3xl -top-10 -left-10"></div>
-                <div class="absolute w-64 h-64 bg-orange-500 rounded-full opacity-20 blur-3xl bottom-10 right-10"></div>
+            <!-- Abstract Hero Graphic -->
+            <div class="relative h-48 sm:h-64 md:h-96 w-full flex items-center justify-center bg-slate-100 rounded-2xl md:rounded-3xl overflow-hidden card-shadow order-1 md:order-2">
+                <div class="absolute w-48 h-48 bg-blue-500 rounded-full opacity-20 blur-3xl -top-10 -left-10"></div>
+                <div class="absolute w-48 h-48 bg-orange-500 rounded-full opacity-20 blur-3xl bottom-10 right-10"></div>
                 <div class="z-10 text-center">
-                    <div class="text-6xl font-black text-slate-800 mb-2">100%</div>
-                    <div class="text-xl text-slate-500 font-medium tracking-widest uppercase">Güvenli Ticaret</div>
-                    <div class="mt-4 inline-block bg-white px-6 py-2 rounded-full shadow-sm text-sm font-semibold text-blue-600">
-                        Hot Wheels & Mini GT
-                    </div>
+                    <div class="text-4xl md:text-6xl font-black text-slate-800 mb-1">100%</div>
+                    <div class="text-[10px] md:text-sm text-slate-500 font-medium tracking-widest uppercase">Güvenli Ticaret</div>
                 </div>
             </div>
         </div>
     </header>
 
-    <main class="container mx-auto px-6 py-12 space-y-20">
+    <main class="container mx-auto px-4 md:px-6 py-12 space-y-16 md:space-y-24">
 
-        <!-- Section 1: Market Composition (Donut Chart) -->
-        <section id="pazar-analizi" class="scroll-mt-24">
-            <div class="mb-10 text-center md:text-left">
-                <h2 class="text-3xl font-bold text-slate-900 mb-4 border-l-4 border-orange-500 pl-4">Alım Yaptığımız Kategoriler</h2>
-                <p class="text-slate-600 max-w-2xl">
-                    Piyasada aktif olarak işlem gören ve tarafımızca nakit olarak değerlendirilen model gruplarının dağılımı. 
-                    Özellikle Premium ve Mini GT serileri yüksek talep görmektedir.
+        <!-- Section 1: Market Composition -->
+        <section id="pazar-analizi" class="scroll-mt-20">
+            <div class="mb-8 text-center md:text-left">
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-3 border-l-4 border-orange-500 pl-4">Alım Kategorileri</h2>
+                <p class="text-sm md:text-base text-slate-600 max-w-2xl">
+                    Piyasada aktif olarak işlem gören ve nakit olarak değerlendirdiğimiz model grupları.
                 </p>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-white p-8 rounded-2xl card-shadow border border-slate-100">
-                <div class="chart-container">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-10 items-center bg-white p-5 md:p-8 rounded-2xl card-shadow border border-slate-100">
+                <div class="chart-container order-2 lg:order-1">
                     <canvas id="categoriesChart"></canvas>
                 </div>
-                <div class="space-y-6">
-                    <div class="flex items-start">
-                        <div class="w-4 h-4 mt-1 rounded-full bg-blue-600 flex-shrink-0 mr-4"></div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 md:gap-6 order-1 lg:order-2">
+                    <div class="flex items-start p-3 bg-slate-50 rounded-xl">
+                        <div class="w-3 h-3 mt-1.5 rounded-full bg-blue-600 flex-shrink-0 mr-3"></div>
                         <div>
-                            <h3 class="font-bold text-lg text-slate-800">Hot Wheels Premium</h3>
-                            <p class="text-sm text-slate-500">Kauçuk lastikli, detaylı modeller. Koleksiyonların en değerli parçaları.</p>
+                            <h3 class="font-bold text-sm md:text-base text-slate-800">Premium Seri</h3>
+                            <p class="text-xs text-slate-500">Kauçuk lastikli, detaylı koleksiyonluk modeller.</p>
                         </div>
                     </div>
-                    <div class="flex items-start">
-                        <div class="w-4 h-4 mt-1 rounded-full bg-orange-500 flex-shrink-0 mr-4"></div>
+                    <div class="flex items-start p-3 bg-slate-50 rounded-xl">
+                        <div class="w-3 h-3 mt-1.5 rounded-full bg-orange-500 flex-shrink-0 mr-3"></div>
                         <div>
-                            <h3 class="font-bold text-lg text-slate-800">Mini GT</h3>
-                            <p class="text-sm text-slate-500">1/64 ölçekte yüksek detay ve gerçekçilik sunan modeller.</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start">
-                        <div class="w-4 h-4 mt-1 rounded-full bg-slate-400 flex-shrink-0 mr-4"></div>
-                        <div>
-                            <h3 class="font-bold text-lg text-slate-800">Regular & STH</h3>
-                            <p class="text-sm text-slate-500">Market modelleri ve nadir bulunan Super Treasure Hunt serileri.</p>
+                            <h3 class="font-bold text-sm md:text-base text-slate-800">Mini GT</h3>
+                            <p class="text-xs text-slate-500">Ölçekli gerçekçilikte lider 1/64 modeller.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Section 2: Valuation Metrics (Radar Chart) -->
-        <section id="degerleme" class="scroll-mt-24">
+        <!-- Section 2: Valuation Metrics -->
+        <section id="degerleme" class="scroll-mt-20">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div class="lg:col-span-1">
-                    <h2 class="text-3xl font-bold text-slate-900 mb-4 border-l-4 border-blue-500 pl-4">Değerleme Kriterleri</h2>
-                    <p class="text-slate-600 mb-6">
-                        Araçlarınıza fiyat teklifi verirken kullandığımız temel metrikler. Her araç, kondisyonu ve piyasa nadirliği üzerinden puanlanır.
+                <div class="lg:col-span-1 text-center md:text-left">
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-3 border-l-4 border-blue-500 pl-4">Değerleme Analizi</h2>
+                    <p class="text-sm md:text-base text-slate-600 mb-6">
+                        Araçlarınıza teklif verirken baz aldığımız 5 temel veri noktası.
                     </p>
-                    <div class="bg-blue-50 p-6 rounded-xl border border-blue-100">
-                        <h4 class="font-bold text-blue-800 mb-2">💡 İpucu</h4>
-                        <p class="text-sm text-blue-700">
-                            Blister (kutu) hasarsızlığı ve modelin "Regular" yerine "Premium" veya "STH" olması değeri katlar.
+                    <div class="bg-blue-50 p-5 rounded-xl border border-blue-100 hidden md:block">
+                        <h4 class="font-bold text-blue-800 text-sm mb-2">💡 Koleksiyoncu Notu</h4>
+                        <p class="text-xs text-blue-700 leading-relaxed">
+                            Kutu (blister) kondisyonu, modelin piyasa değerini %30'a kadar etkileyebilir.
                         </p>
                     </div>
                 </div>
-                <div class="lg:col-span-2 bg-white p-6 rounded-2xl card-shadow">
-                    <div class="chart-container" style="height: 400px; max-height: 450px;">
+                <div class="lg:col-span-2 bg-white p-4 md:p-8 rounded-2xl card-shadow">
+                    <div class="chart-container" style="height: 300px; sm:height: 350px; md:height: 400px;">
                         <canvas id="radarChart"></canvas>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Section 3: Process (CSS Flow) -->
-        <section id="surec" class="bg-slate-900 text-white rounded-3xl p-8 md:p-16 relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-64 h-64 bg-blue-600 rounded-full blur-3xl opacity-20 transform translate-x-1/2 -translate-y-1/2"></div>
+        <!-- Section 3: Process -->
+        <section id="surec" class="bg-slate-900 text-white rounded-2xl md:rounded-3xl p-6 md:p-16 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 md:w-64 md:h-64 bg-blue-600 rounded-full blur-3xl opacity-20 transform translate-x-1/2 -translate-y-1/2"></div>
             
-            <div class="text-center mb-16 relative z-10">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">3 Adımda Nakit Satış</h2>
-                <p class="text-slate-400 max-w-2xl mx-auto">
-                    Karmaşık ilan süreçleri yok, kargo beklemek yok. İstanbul içi elden hızlı ticaret.
+            <div class="text-center mb-10 md:mb-16 relative z-10">
+                <h2 class="text-2xl md:text-4xl font-bold mb-3">Hızlı İşlem Süreci</h2>
+                <p class="text-xs md:text-base text-slate-400 max-w-xl mx-auto">
+                    İstanbul içi elden teslim ile güvenli ticaretin en kısa yolu.
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
-                <!-- Step 1 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 relative z-10">
                 <div class="relative flex flex-col items-center text-center group step-connector">
-                    <div class="w-16 h-16 rounded-2xl bg-blue-600 flex items-center justify-center text-2xl font-bold mb-6 shadow-lg shadow-blue-500/30 group-hover:scale-110 transition-transform duration-300">
-                        1
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">Fotoğraf Gönder</h3>
-                    <p class="text-slate-400 text-sm px-4">
-                        Satmak istediğiniz Hot Wheels veya Mini GT modellerinin net fotoğraflarını DM üzerinden bize iletin.
-                    </p>
+                    <div class="w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-blue-600 flex items-center justify-center text-lg md:text-2xl font-bold mb-4 md:mb-6 shadow-lg shadow-blue-500/30">1</div>
+                    <h3 class="text-lg md:text-xl font-bold mb-2">Görsel Paylaş</h3>
+                    <p class="text-slate-400 text-xs md:text-sm px-2">Modellerin fotoğraflarını DM yoluyla bize iletin.</p>
                 </div>
 
-                <!-- Step 2 -->
                 <div class="relative flex flex-col items-center text-center group step-connector">
-                    <div class="w-16 h-16 rounded-2xl bg-orange-500 flex items-center justify-center text-2xl font-bold mb-6 shadow-lg shadow-orange-500/30 group-hover:scale-110 transition-transform duration-300">
-                        2
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">Fiyat Al</h3>
-                    <p class="text-slate-400 text-sm px-4">
-                        Modellerinizi piyasa verilerine göre analiz edip, size en adil nakit alım teklifimizi sunalım.
-                    </p>
+                    <div class="w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-orange-500 flex items-center justify-center text-lg md:text-2xl font-bold mb-4 md:mb-6 shadow-lg shadow-orange-500/30">2</div>
+                    <h3 class="text-lg md:text-xl font-bold mb-2">Anında Teklif</h3>
+                    <p class="text-slate-400 text-xs md:text-sm px-2">Piyasa verilerine göre nakit alım fiyatımızı sunalım.</p>
                 </div>
 
-                <!-- Step 3 -->
                 <div class="relative flex flex-col items-center text-center group">
-                    <div class="w-16 h-16 rounded-2xl bg-emerald-500 flex items-center justify-center text-2xl font-bold mb-6 shadow-lg shadow-emerald-500/30 group-hover:scale-110 transition-transform duration-300">
-                        3
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">Elden Teslim</h3>
-                    <p class="text-slate-400 text-sm px-4">
-                        Anlaşılan fiyattan İstanbul içi ortak bir noktada buluşup ürünü teslim alınır, ödeme yapılır.
-                    </p>
+                    <div class="w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-emerald-500 flex items-center justify-center text-lg md:text-2xl font-bold mb-4 md:mb-6 shadow-lg shadow-emerald-500/30">3</div>
+                    <h3 class="text-lg md:text-xl font-bold mb-2">Nakitte Buluş</h3>
+                    <p class="text-slate-400 text-xs md:text-sm px-2">İstanbul'da elden teslim ve anında ödeme.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Section 4: Comparison (Bar Chart) -->
-        <section class="scroll-mt-24">
-            <div class="mb-10">
-                <h2 class="text-3xl font-bold text-slate-900 mb-4 border-l-4 border-emerald-500 pl-4">Neden Biz?</h2>
-                <p class="text-slate-600 max-w-3xl">
-                    Online platformlarda tek tek satış yapmak zaman ve efor gerektirir. Biz toplu alım gücümüzle süreci basitleştiriyoruz.
-                    Aşağıdaki grafik, bireysel satış ile bizim hizmetimizin karşılaştırmasını göstermektedir.
+        <!-- Section 4: Platform Comparison -->
+        <section class="scroll-mt-20">
+            <div class="mb-8 text-center md:text-left">
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-3 border-l-4 border-emerald-500 pl-4">Neden Biz?</h2>
+                <p class="text-sm md:text-base text-slate-600 max-w-3xl">
+                    Bireysel satış zahmetiyle uğraşmadan toplu alım avantajından yararlanın.
                 </p>
             </div>
             
-            <div class="bg-white p-6 rounded-2xl card-shadow border border-slate-100">
+            <div class="bg-white p-4 md:p-8 rounded-2xl card-shadow border border-slate-100">
                 <div class="chart-container">
                     <canvas id="comparisonChart"></canvas>
                 </div>
-                <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
-                    <div class="p-4 bg-slate-50 rounded-lg">
-                        <div class="text-2xl font-bold text-blue-600">Hızlı</div>
-                        <div class="text-xs text-slate-500 uppercase tracking-wide">İşlem Süresi</div>
-                    </div>
-                    <div class="p-4 bg-slate-50 rounded-lg">
-                        <div class="text-2xl font-bold text-emerald-600">Güvenli</div>
-                        <div class="text-xs text-slate-500 uppercase tracking-wide">Ödeme Garantisi</div>
-                    </div>
-                    <div class="p-4 bg-slate-50 rounded-lg">
-                        <div class="text-2xl font-bold text-orange-500">Kolay</div>
-                        <div class="text-xs text-slate-500 uppercase tracking-wide">Operasyonel Yük</div>
-                    </div>
-                </div>
             </div>
         </section>
 
-        <!-- CTA / Footer -->
-        <section id="iletisim" class="bg-gradient-to-br from-blue-600 to-blue-800 rounded-3xl p-10 text-white text-center shadow-2xl">
-            <h2 class="text-3xl font-bold mb-6">Koleksiyonunuzu Bekletmeyin</h2>
-            <p class="text-blue-100 mb-8 max-w-2xl mx-auto">
-                İstanbul'un her noktasına erişim imkanı. Hot Wheels ve Mini GT modelleriniz değerinde alınır.
-                Mesaj atın, hemen değerlendirelim.
+        <!-- Final CTA -->
+        <section id="iletisim" class="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl md:rounded-3xl p-8 md:p-16 text-white text-center shadow-2xl relative overflow-hidden">
+             <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-orange-500 rounded-full blur-3xl opacity-20"></div>
+            <h2 class="text-2xl md:text-4xl font-bold mb-4 md:mb-6 leading-tight">Satmak İstediğiniz <br class="md:hidden"> Her Şeyi Değerlendirelim</h2>
+            <p class="text-sm md:text-lg text-blue-100 mb-8 max-w-2xl mx-auto opacity-90">
+                İstanbul'un her ilçesinde elden teslimat imkanı. Mesaj atın, modellerinizi nakde çevirelim.
             </p>
-            <button class="bg-white text-blue-700 font-bold py-4 px-10 rounded-full shadow-lg hover:bg-orange-500 hover:text-white transition-all duration-300 transform hover:scale-105">
-                İletişime Geç & Teklif Al
+            <button class="w-full sm:w-auto bg-white text-blue-700 font-extrabold py-4 px-10 rounded-full shadow-xl hover:bg-orange-500 hover:text-white transition-all transform hover:scale-105 active:scale-95">
+                Hemen Mesaj Gönder
             </button>
-            <div class="mt-8 flex justify-center space-x-4 text-sm text-blue-200">
-                <span>#HotWheelsTurkiye</span>
-                <span>•</span>
-                <span>#MiniGTTurkiye</span>
-                <span>•</span>
-                <span>#DiecastAlim</span>
-            </div>
         </section>
 
     </main>
 
-    <footer class="bg-slate-900 text-slate-500 py-12 mt-12 border-t border-slate-800">
+    <footer class="bg-slate-900 text-slate-500 py-10 mt-12 border-t border-slate-800">
         <div class="container mx-auto px-6 text-center">
-            <p class="mb-4">&copy; 2024 İstanbul Diecast Alım Merkezi. Tüm hakları saklıdır.</p>
-            <p class="text-xs">Bu sayfa bilgilendirme amaçlıdır. Ticari marka hakları ilgili sahiplerine aittir.</p>
+            <p class="text-xs md:text-sm mb-2">&copy; 2024 İstanbul Diecast Alım. Güvenle Sat.</p>
+            <div class="flex justify-center space-x-3 text-[10px] md:text-xs">
+                <span>#DiecastTR</span>
+                <span>•</span>
+                <span>#IstanbulHobi</span>
+            </div>
         </div>
     </footer>
 
     <script>
-        // --- Helper Function: Label Wrapping for Chart.js ---
-        // Splits long strings into arrays of shorter strings based on max length.
-        function wrapLabel(str, maxLen = 16) {
+        function wrapLabel(str, maxLen = 14) {
             if (str.length <= maxLen) return str;
             const words = str.split(' ');
             const lines = [];
             let currentLine = words[0];
-
             for (let i = 1; i < words.length; i++) {
                 if (currentLine.length + 1 + words[i].length <= maxLen) {
                     currentLine += ' ' + words[i];
@@ -311,51 +268,34 @@
             return lines;
         }
 
-        // --- Global Chart Configuration ---
         Chart.defaults.font.family = "'Inter', sans-serif";
         Chart.defaults.color = '#64748B';
+        Chart.defaults.font.size = window.innerWidth < 768 ? 10 : 12;
         
-        // Common tooltip configuration
         const tooltipConfig = {
             callbacks: {
                 title: function(tooltipItems) {
                     const item = tooltipItems[0];
                     let label = item.chart.data.labels[item.dataIndex];
-                    if (Array.isArray(label)) {
-                        return label.join(' ');
-                    } else {
-                        return label;
-                    }
+                    return Array.isArray(label) ? label.join(' ') : label;
                 }
             },
-            backgroundColor: 'rgba(30, 41, 59, 0.9)',
-            titleFont: { size: 13, weight: 'bold' },
-            bodyFont: { size: 12 },
-            padding: 12,
+            padding: 10,
             cornerRadius: 8,
             displayColors: true
         };
 
-        // --- Chart 1: Market Composition (Donut) ---
-        const ctxCategories = document.getElementById('categoriesChart').getContext('2d');
-        const categoriesLabels = ['Hot Wheels Premium', 'Mini GT Modelleri', 'Hot Wheels Regular', 'Super Treasure Hunt'];
-        const processedCatLabels = categoriesLabels.map(l => wrapLabel(l));
-
-        new Chart(ctxCategories, {
+        // Donut Chart
+        const ctxCat = document.getElementById('categoriesChart').getContext('2d');
+        new Chart(ctxCat, {
             type: 'doughnut',
             data: {
-                labels: processedCatLabels,
+                labels: ['HW Premium', 'Mini GT', 'HW Regular', 'STH Nadir'].map(l => wrapLabel(l)),
                 datasets: [{
-                    label: 'Alım Hacmi (%)',
-                    data: [40, 30, 20, 10],
-                    backgroundColor: [
-                        '#3B82F6', // Blue
-                        '#F97316', // Orange
-                        '#94A3B8', // Grey
-                        '#10B981'  // Emerald
-                    ],
-                    borderWidth: 0,
-                    hoverOffset: 4
+                    data: [45, 25, 20, 10],
+                    backgroundColor: ['#3B82F6', '#F97316', '#94A3B8', '#10B981'],
+                    borderWidth: 2,
+                    borderColor: '#fff'
                 }]
             },
             options: {
@@ -364,43 +304,26 @@
                 plugins: {
                     legend: {
                         position: 'bottom',
-                        labels: { padding: 20, usePointStyle: true }
+                        labels: { boxWidth: 12, padding: 15 }
                     },
                     tooltip: tooltipConfig
                 },
-                cutout: '70%'
+                cutout: '65%'
             }
         });
 
-        // --- Chart 2: Valuation Metrics (Radar) ---
+        // Radar Chart
         const ctxRadar = document.getElementById('radarChart').getContext('2d');
-        const radarLabels = ['Kutu Kondisyonu', 'Model Nadirliği', 'Piyasa Talebi', 'Üretim Yılı', 'Renk/Detay'];
-        const processedRadarLabels = radarLabels.map(l => wrapLabel(l));
-
         new Chart(ctxRadar, {
             type: 'radar',
             data: {
-                labels: processedRadarLabels,
+                labels: ['Kondisyon', 'Nadirlik', 'Talep', 'Yıl', 'Renk'].map(l => wrapLabel(l)),
                 datasets: [{
-                    label: 'Premium Model Profili',
-                    data: [95, 80, 90, 70, 85],
-                    fill: true,
+                    label: 'Piyasa Değeri',
+                    data: [90, 85, 75, 60, 80],
                     backgroundColor: 'rgba(59, 130, 246, 0.2)',
                     borderColor: '#3B82F6',
-                    pointBackgroundColor: '#3B82F6',
-                    pointBorderColor: '#fff',
-                    pointHoverBackgroundColor: '#fff',
-                    pointHoverBorderColor: '#3B82F6'
-                }, {
-                    label: 'Regular Model Profili',
-                    data: [90, 40, 60, 50, 60],
-                    fill: true,
-                    backgroundColor: 'rgba(249, 115, 22, 0.2)',
-                    borderColor: '#F97316',
-                    pointBackgroundColor: '#F97316',
-                    pointBorderColor: '#fff',
-                    pointHoverBackgroundColor: '#fff',
-                    pointHoverBorderColor: '#F97316'
+                    pointRadius: 3
                 }]
             },
             options: {
@@ -408,45 +331,32 @@
                 maintainAspectRatio: false,
                 scales: {
                     r: {
-                        angleLines: { color: '#E2E8F0' },
-                        grid: { color: '#E2E8F0' },
-                        pointLabels: {
-                            font: { size: 12, weight: '600' },
-                            color: '#475569'
-                        },
-                        ticks: { display: false, backdropColor: 'transparent' }
+                        ticks: { display: false },
+                        pointLabels: { font: { weight: '600' } }
                     }
                 },
-                plugins: {
-                    legend: { position: 'top' },
-                    tooltip: tooltipConfig
-                }
+                plugins: { tooltip: tooltipConfig }
             }
         });
 
-        // --- Chart 3: Comparison (Bar) ---
-        const ctxComparison = document.getElementById('comparisonChart').getContext('2d');
-        const compLabels = ['İşlem Hızı', 'Nakit Akışı', 'Güvenlik', 'Efor Tasarrufu'];
-        const processedCompLabels = compLabels.map(l => wrapLabel(l));
-
-        new Chart(ctxComparison, {
+        // Bar Chart
+        const ctxComp = document.getElementById('comparisonChart').getContext('2d');
+        new Chart(ctxComp, {
             type: 'bar',
             data: {
-                labels: processedCompLabels,
+                labels: ['Hız', 'Ödeme', 'Güven', 'Efor'].map(l => wrapLabel(l)),
                 datasets: [
                     {
                         label: 'Bizimle Satış',
                         data: [95, 100, 100, 90],
-                        backgroundColor: '#10B981', // Emerald
-                        borderRadius: 6,
-                        barPercentage: 0.6
+                        backgroundColor: '#10B981',
+                        borderRadius: 4
                     },
                     {
-                        label: 'Uygulama İlanı',
-                        data: [40, 60, 70, 30],
-                        backgroundColor: '#CBD5E1', // Slate 300
-                        borderRadius: 6,
-                        barPercentage: 0.6
+                        label: 'Diğer Platformlar',
+                        data: [30, 50, 60, 20],
+                        backgroundColor: '#E2E8F0',
+                        borderRadius: 4
                     }
                 ]
             },
@@ -454,21 +364,19 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 100,
-                        grid: { borderDash: [5, 5], color: '#F1F5F9' },
-                        ticks: { display: false } // Abstract score, numbers hidden
-                    },
-                    x: {
-                        grid: { display: false }
-                    }
+                    y: { beginAtZero: true, max: 100, ticks: { display: false }, grid: { display: false } },
+                    x: { grid: { display: false } }
                 },
                 plugins: {
-                    legend: { position: 'top' },
+                    legend: { position: 'top', labels: { boxWidth: 12 } },
                     tooltip: tooltipConfig
                 }
             }
+        });
+
+        // Handle dynamic font size on resize
+        window.addEventListener('resize', () => {
+            Chart.defaults.font.size = window.innerWidth < 768 ? 10 : 12;
         });
     </script>
 </body>
